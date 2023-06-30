@@ -1,0 +1,29 @@
+spring:
+  application.name: gateway
+  profiles:
+    active: dev
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+          lower-case-service-id: true
+    config:
+      retry:
+        initialInterval: 2000
+        multiplier: 1.5
+        maxInterval: 60000
+        maxAttempts: 100
+      discovery:
+        service-id: config-server
+        enabled: true
+logging:
+  level:
+    root: info
+server.port: 8080
+eureka:
+  instance:
+    lease-renewal-interval-in-seconds: 10
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8082/eureka/
