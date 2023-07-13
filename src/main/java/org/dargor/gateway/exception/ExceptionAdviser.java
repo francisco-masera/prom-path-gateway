@@ -33,7 +33,7 @@ public class ExceptionAdviser {
     }
 
     @ExceptionHandler(Exception.class)
-    public final ResponseEntity<ErrorResponse> genericError(Exception e) {
+    public final ResponseEntity<ErrorResponse> genericError() {
         var error = new ErrorResponse(ErrorDefinition.UNKNOWN_ERROR.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR.value());
         log.error(String.format("Exception found with code %d.", error.getCode()));
         return new ResponseEntity<>(error, null, HttpStatus.INTERNAL_SERVER_ERROR);
