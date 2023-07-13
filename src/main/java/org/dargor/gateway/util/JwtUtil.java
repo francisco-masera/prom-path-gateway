@@ -6,6 +6,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class JwtUtil {
+
     @Value("${jwt.secret}")
     private String jwtSecret;
 
@@ -33,4 +34,5 @@ public class JwtUtil {
             throw new UnsupportedJwtException("JWT claims string is empty.");
         }
     }
+
 }
