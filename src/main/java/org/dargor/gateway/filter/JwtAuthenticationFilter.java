@@ -9,6 +9,7 @@ import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.cloud.gateway.filter.GatewayFilter;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.web.server.ServerWebExchange;
@@ -27,17 +28,17 @@ public class JwtAuthenticationFilter implements GatewayFilter {
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
         var request = exchange.getRequest();
-        final var apiEndpoints = List.of("/auth");
+        final var apiEndpoints = List.of("/auth-svc");
         Predicate<ServerHttpRequest> isApiSecured = r -> apiEndpoints.stream()
                 .noneMatch(uri -> r.getURI().getPath().contains(uri));
 
         if (isApiSecured.test(request)) {
-            if (!request.getHeaders().containsKey("Authorization")) {
+            if (!request.getHeaders().containsKey(HttpHeaders.AUTHORIZATION)) {
                 var response = exchange.getResponse();
                 response.setStatusCode(HttpStatus.UNAUTHORIZED);
                 return response.setComplete();
             }
-            final var token = request.getHeaders().getOrEmpty("Authorization").get(0);
+            final var token = request.getHeaders().getOrEmpty(HttpHeaders.AUTHORIZATION).get(0);
             try {
                 jwtUtil.validateToken(token);
             } catch (MalformedJwtException | UnsupportedJwtException e) {

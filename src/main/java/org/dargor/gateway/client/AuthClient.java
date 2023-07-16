@@ -9,14 +9,14 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 @FeignClient(name = "AuthClient",
-        url = "${feign.auth-svc.host}:${feign.auth-svc.port}/${feign.auth-svc.id}/${feign.auth-svc.url}"
+        url = "${routing.auth-svc.host}:${routing.auth-svc.port}/${routing.auth-svc.id}/${routing.auth-svc.url}"
 )
 public interface AuthClient {
 
-    @GetMapping("/${feign.auth-svc.sign-up-url}")
+    @GetMapping("/${routing.auth-svc.sign-up-url}")
     UserResponseDto signUp(@RequestBody SignUpRequestDto signUpRequestDto);
 
-    @PostMapping("/${feign.auth-svc.login-url}")
+    @PostMapping("/${routing.auth-svc.login-url}")
     UserResponseDto login(@RequestBody LoginRequestDto products);
 
 }
