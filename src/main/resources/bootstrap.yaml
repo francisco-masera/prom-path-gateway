@@ -2,8 +2,13 @@ spring:
   application.name: gateway
   profiles.active: dev
   cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+          lower-case-service-id: true
     vault:
-      token: hvs.Ud1IunJLvNM2LJa7L7R7cFO7
+      token: ${VAULT_TOKEN}
       authentication: token
       uri: http://localhost:8200
       kv:
@@ -20,7 +25,7 @@ eureka:
   client:
     serviceUrl:
       defaultZone: http://localhost:8082/eureka/
-feign:
+routing:
   auth-svc:
     host: ${feign.auth-svc.host}
     id: ${feign.auth-svc.id}
@@ -28,7 +33,7 @@ feign:
     port: ${feign.auth-svc.port}
     sign-up-url: ${feign.auth-svc.sign-up-url}
     login-url: ${feign.auth-svc.login-url}
-jwt:
+auth:
   secret: ${jwt.secret}
 logging:
   level:
