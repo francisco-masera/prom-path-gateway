@@ -7,6 +7,19 @@ spring:
         locator:
           enabled: true
           lower-case-service-id: true
+      routes:
+        - id: customer-ms
+          uri: lb://customer-ms
+          predicates:
+            - Path=/customer/**
+        - id: product-ms
+          uri: lb://product-ms
+          predicates:
+            - Path=/product/**
+        - id: auth-svc
+          uri: lb://auth-svc
+          predicates:
+            - Path=/auth/**
     vault:
       token: ${VAULT_TOKEN}
       authentication: token

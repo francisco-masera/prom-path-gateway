@@ -22,9 +22,9 @@ public class GatewayConfig {
 
     @Bean
     public RouteLocator routes(RouteLocatorBuilder builder) {
-        return builder.routes().route("auth-svc", r -> r.path("/auth-svc/**").filters(f -> f.filter(filter)).uri("lb://auth-svc"))
-                .route("customer-ms", r -> r.path("/customer-ms/**").filters(f -> f.filter(filter)).uri("lb://customer-ms"))
-                .route("product-ms", r -> r.path("/product-ms/**").filters(f -> f.filter(filter)).uri("lb://product-ms"))
+        return builder.routes().route("auth-svc", r -> r.path("/auth-svc/**").filters(f -> f.filter(filter).stripPrefix(1)).uri("lb://auth-svc"))
+                .route("customer-ms", r -> r.path("/customer-ms/**").filters(f -> f.filter(filter).stripPrefix(1)).uri("lb://customer-ms"))
+                .route("product-ms", r -> r.path("/product-ms/**").filters(f -> f.filter(filter).stripPrefix(1)).uri("lb://product-ms"))
                 .build();
     }
 
