@@ -38,14 +38,14 @@ eureka:
   client:
     serviceUrl:
       defaultZone: http://localhost:8082/eureka/
-routing:
+feign:
   auth-svc:
-    host: ${feign.auth-svc.host}
-    id: ${feign.auth-svc.id}
-    url: ${feign.auth-svc.url}
-    port: ${feign.auth-svc.port}
-    sign-up-url: ${feign.auth-svc.sign-up-url}
-    login-url: ${feign.auth-svc.login-url}
+    id: "auth-svc"
+    url: "auth"
+    port: "8080"
+    host: "http://localhost"
+    sign-up-url: "sign-up"
+    login-url: "login"
 auth:
   secret: ${jwt.secret}
 logging:
