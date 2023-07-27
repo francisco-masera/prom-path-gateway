@@ -5,7 +5,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 @Component
-public class JwtUtil {
+public class JwtUtils {
 
     private final static String TOKEN_PREFIX = "Bearer";
     @Value("${auth.secret}")
@@ -32,11 +32,11 @@ public class JwtUtil {
         } catch (UnsupportedJwtException ex) {
             throw new MalformedJwtException("Unsupported JWT token");
         } catch (IllegalArgumentException ex) {
-            throw new UnsupportedJwtException("JWT claims string is empty.");
+            throw new UnsupportedJwtException("JWT claims string is empty");
         }
     }
 
     public String getToken(String header) {
-        return header.substring(TOKEN_PREFIX.length());
+        return header.substring(TOKEN_PREFIX.length() + 1);
     }
 }

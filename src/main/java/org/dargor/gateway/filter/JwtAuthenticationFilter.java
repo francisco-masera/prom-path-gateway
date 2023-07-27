@@ -4,7 +4,7 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.UnsupportedJwtException;
 import lombok.AllArgsConstructor;
-import org.dargor.gateway.util.JwtUtil;
+import org.dargor.gateway.util.JwtUtils;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.cloud.gateway.filter.GatewayFilter;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
@@ -23,7 +23,7 @@ import java.util.function.Predicate;
 @AllArgsConstructor
 public class JwtAuthenticationFilter implements GatewayFilter {
 
-    private final JwtUtil jwtUtil;
+    private final JwtUtils jwtUtil;
 
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
