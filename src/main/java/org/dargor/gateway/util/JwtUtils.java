@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class JwtUtils {
 
-    private final static String TOKEN_PREFIX = "Bearer";
+    private static final String TOKEN_PREFIX = "Bearer";
     @Value("${auth.secret}")
     private String jwtSecret;
 
