@@ -30,13 +30,15 @@ dependencies {
             'org.springframework.cloud:spring-cloud-starter-config',
             'org.springframework.cloud:spring-cloud-starter-vault-config',
             'org.springframework.cloud:spring-cloud-starter-openfeign',
+            'org.springframework.cloud:spring-cloud-starter-zipkin:2.2.8.RELEASE',
             'org.springframework.boot:spring-boot-starter-webflux',
             'io.jsonwebtoken:jjwt:0.9.1',
             'javax.xml.bind:jaxb-api:2.3.1'
 
     )
 
-	productionRuntimeClasspath 'org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:3.3'
+
+    productionRuntimeClasspath 'org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:3.3'
 
 	compileOnly 'org.projectlombok:lombok'
 
