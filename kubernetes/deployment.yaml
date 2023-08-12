@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: gateway
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: gateway
+  template:
+    metadata:
+      labels:
+        app: gateway
+    spec:
+      containers:
+        - name: gateway
+          image: ghcr.io/dargor94/gateway:latest
+          ports:
+            - containerPort: 8080
+          env:
+            - name: VAULT_TOKEN
+              value: root
+      imagePullSecrets:
+        - name: regcred
