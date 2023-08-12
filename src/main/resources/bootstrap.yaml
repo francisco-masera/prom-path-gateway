@@ -10,16 +10,13 @@ spring:
         default-context: gateway
         backend: secret
     config:
-      discovery:
-        service-id: config-server
-        enabled: true
+      enabled: true
+      fail-fast: true
+      uri: http://config-server:8888
+      retry:
+        max-attempts: 5
+        max-interval: 1500
 server.port: 8080
-eureka:
-  instance:
-    preferIpAddress: true
-  client:
-    serviceUrl:
-      defaultZone: http://discovery-server:8082/eureka/
 feign:
   auth-svc:
     id: "auth-svc"
