@@ -19,17 +19,14 @@ eureka:
     preferIpAddress: true
   client:
     serviceUrl:
-      defaultZone: http://ghcr.io/dargor94/discovery-server:8082/eureka/
+      defaultZone: http://discovery-server:8082/eureka/
 feign:
   auth-svc:
     id: "auth-svc"
     url: "auth"
     port: "8080"
-    host: "http://ghcr.io/dargor94/auth-service"
+    host: "http://auth-service"
     sign-up-url: "sign-up"
     login-url: "login"
 auth:
   secret: ${jwt.secret}
-logging:
-  level:
-    root: info
