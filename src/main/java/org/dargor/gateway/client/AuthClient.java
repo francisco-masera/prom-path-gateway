@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 @FeignClient(name = "AuthClient",
-        url = "${feign.auth-svc.host}:${feign.auth-svc.port}/${feign.auth-svc.id}/${feign.auth-svc.url}"
+        url = "${feign.auth-svc.host}:${feign.auth-svc.port}/${feign.auth-svc.url}"
 )
 public interface AuthClient {
 
