@@ -13,7 +13,7 @@ import reactor.netty.http.client.HttpClient;
 @AllArgsConstructor
 public class GatewayConfig {
 
-    private final JwtAuthenticationFilter filter;
+    private final JwtAuthenticationFilter jwtFilter;
 
     @Bean
     public HttpClient httpClient() {
@@ -22,9 +22,9 @@ public class GatewayConfig {
 
     @Bean
     public RouteLocator routes(RouteLocatorBuilder builder) {
-        return builder.routes().route("auth-service", r -> r.path("/auth-service/**").filters(f -> f.filter(filter).stripPrefix(1)).uri("http://auth-service:8081"))
-                .route("customer-ms", r -> r.path("/customer-ms/**").filters(f -> f.filter(filter).stripPrefix(1)).uri("http://customer-ms:9001"))
-                .route("product-ms", r -> r.path("/product-ms/**").filters(f -> f.filter(filter).stripPrefix(1)).uri("http://product-ms:9002"))
+        return builder.routes().route("auth-service", r -> r.path("/auth-service/**").filters(f -> f.filter(jwtFilter).stripPrefix(1)).uri("http://auth-service:8081"))
+                .route("customer-ms", r -> r.path("/customer-ms/**").filters(f -> f.filter(jwtFilter).stripPrefix(1)).uri("http://customer-ms:9001"))
+                .route("product-ms", r -> r.path("/product-ms/**").filters(f -> f.filter(jwtFilter).stripPrefix(1)).uri("http://product-ms:9002"))
                 .build();
     }
 

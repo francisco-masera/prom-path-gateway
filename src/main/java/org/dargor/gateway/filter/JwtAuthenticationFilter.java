@@ -4,6 +4,7 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.UnsupportedJwtException;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.dargor.gateway.util.JwtUtils;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.cloud.gateway.filter.GatewayFilter;
@@ -18,6 +19,7 @@ import reactor.core.publisher.Mono;
 import java.util.List;
 import java.util.function.Predicate;
 
+@Slf4j
 @RefreshScope
 @Configuration
 @AllArgsConstructor
@@ -31,6 +33,11 @@ public class JwtAuthenticationFilter implements GatewayFilter {
         final var apiEndpoints = List.of("/auth-service");
         Predicate<ServerHttpRequest> isApiSecured = r -> apiEndpoints.stream()
                 .noneMatch(uri -> r.getURI().getPath().contains(uri));
+
+        log.info("Request Path: " + request.getPath());
+        log.info("Request Context Path: " + request.getPath().contextPath().value());
+        log.info("Request Uri: " + request.getURI().getPath());
+        log.info("Request Remote Address: " + request.getRemoteAddress());
 
         if (isApiSecured.test(request)) {
             if (!request.getHeaders().containsKey(HttpHeaders.AUTHORIZATION)) {
