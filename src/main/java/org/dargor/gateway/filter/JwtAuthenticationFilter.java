@@ -16,8 +16,13 @@ import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
 
+import java.net.URI;
+import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 import java.util.function.Predicate;
+
+import static org.springframework.cloud.gateway.support.ServerWebExchangeUtils.GATEWAY_ORIGINAL_REQUEST_URL_ATTR;
 
 @Slf4j
 @RefreshScope
@@ -38,6 +43,11 @@ public class JwtAuthenticationFilter implements GatewayFilter {
         log.info("Request Context Path: " + request.getPath().contextPath().value());
         log.info("Request Uri: " + request.getURI().getPath());
         log.info("Request Remote Address: " + request.getRemoteAddress());
+        Set<URI> uris = exchange.getAttributeOrDefault(GATEWAY_ORIGINAL_REQUEST_URL_ATTR, Collections.emptySet());
+        log.info("GATEWAY_ORIGINAL_REQUEST_URL_ATTR");
+
+        uris.forEach(uri -> log.info("URIS: " + uri.toString()));
+
 
         if (isApiSecured.test(request)) {
             if (!request.getHeaders().containsKey(HttpHeaders.AUTHORIZATION)) {
