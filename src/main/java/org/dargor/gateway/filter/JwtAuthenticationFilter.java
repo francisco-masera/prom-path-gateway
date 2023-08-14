@@ -16,14 +16,8 @@ import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
 
-import java.net.URI;
-import java.util.Collections;
-import java.util.LinkedHashSet;
 import java.util.List;
-import java.util.Set;
 import java.util.function.Predicate;
-
-import static org.springframework.cloud.gateway.support.ServerWebExchangeUtils.GATEWAY_ORIGINAL_REQUEST_URL_ATTR;
 
 @Slf4j
 @RefreshScope
@@ -40,15 +34,6 @@ public class JwtAuthenticationFilter implements GatewayFilter {
         Predicate<ServerHttpRequest> isApiSecured = r -> apiEndpoints.stream()
                 .noneMatch(uri -> r.getURI().getPath().contains(uri));
 
-
-        Set<URI> uris = exchange.getAttributeOrDefault(GATEWAY_ORIGINAL_REQUEST_URL_ATTR, Collections.emptySet());
-        log.info("GATEWAY_ORIGINAL_REQUEST_URL_ATTR");
-
-        uris.forEach(uri -> log.info("URIS: " + uri));
-        log.info("URIS: " + uris);
-        LinkedHashSet<URI> attr = exchange.getAttribute(GATEWAY_ORIGINAL_REQUEST_URL_ATTR);
-        log.info("attr: " + attr);
-
         if (isApiSecured.test(request)) {
             if (!request.getHeaders().containsKey(HttpHeaders.AUTHORIZATION)) {
                 var response = exchange.getResponse();
@@ -61,7 +46,7 @@ public class JwtAuthenticationFilter implements GatewayFilter {
                 jwtUtil.validateToken(token);
             } catch (MalformedJwtException | UnsupportedJwtException e) {
                 var response = exchange.getResponse();
-                response.setStatusCode(HttpStatus.BAD_REQUEST);
+                response.setStatusCode(HttpStatus.UNAUTHORIZED);
                 return response.setComplete();
             }
 
