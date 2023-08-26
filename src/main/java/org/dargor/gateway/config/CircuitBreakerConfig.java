@@ -1,21 +1,16 @@
 package org.dargor.gateway.config;
 
 
-import io.github.resilience4j.circuitbreaker.autoconfigure.CircuitBreakerAutoConfiguration;
 import io.github.resilience4j.timelimiter.TimeLimiterConfig;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
-import org.springframework.cloud.circuitbreaker.resilience4j.ReactiveResilience4JAutoConfiguration;
 import org.springframework.cloud.circuitbreaker.resilience4j.ReactiveResilience4JCircuitBreakerFactory;
 import org.springframework.cloud.circuitbreaker.resilience4j.Resilience4JConfigBuilder;
 import org.springframework.cloud.client.circuitbreaker.Customizer;
 import org.springframework.context.annotation.Bean;
-import org.springframework.web.reactive.DispatcherHandler;
+import org.springframework.context.annotation.Configuration;
 
 import java.time.Duration;
-/*
-@ConditionalOnClass({DispatcherHandler.class,
-        ReactiveResilience4JAutoConfiguration.class,
-        CircuitBreakerAutoConfiguration.class})*/
+
+@Configuration
 public class CircuitBreakerConfig {
 
     @Bean
