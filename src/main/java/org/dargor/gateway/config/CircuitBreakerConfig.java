@@ -15,7 +15,7 @@ public class CircuitBreakerConfig {
 
     @Bean
     public Customizer<ReactiveResilience4JCircuitBreakerFactory> defaultCustomizer() {
-        return factory -> factory.configureDefault(id -> new Resilience4JConfigBuilder(id)
+        return factory -> factory.configureDefault(id -> new Resilience4JConfigBuilder("circuit-breaker")
                 .circuitBreakerConfig(io.github.resilience4j.circuitbreaker.CircuitBreakerConfig.custom()
                         .slidingWindowSize(5)
                         .permittedNumberOfCallsInHalfOpenState(5)
