@@ -1,21 +1,23 @@
 package org.dargor.gateway.util;
 
 import io.jsonwebtoken.*;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
+@Slf4j
 @Component
 public class JwtUtils {
 
     private static final String TOKEN_PREFIX = "Bearer";
-    @Value("${auth.secret}")
+    @Value("${jwt-secret}")
     private String jwtSecret;
 
     public Claims getClaims(final String token) {
         try {
             return Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(token).getBody();
         } catch (Exception e) {
-            e.printStackTrace();
+            log.info("Error obtiendo claims: " + e.getMessage());
             throw e;
         }
     }
