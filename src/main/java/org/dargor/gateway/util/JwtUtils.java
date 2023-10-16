@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 public class JwtUtils {
 
     private static final String TOKEN_PREFIX = "Bearer";
-    @Value("${jwt-secret}")
+    @Value("${jwt.secret}")
     private String jwtSecret;
 
     public Claims getClaims(final String token) {
