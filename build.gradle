@@ -9,7 +9,7 @@ group = 'org.dargor'
 version = '0.0.1-SNAPSHOT'
 
 java {
-    sourceCompatibility = 'VERSION_11'
+    sourceCompatibility(JavaVersion.VERSION_17)
 }
 
 repositories {

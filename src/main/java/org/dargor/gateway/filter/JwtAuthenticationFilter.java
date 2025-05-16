@@ -1,10 +1,12 @@
 package org.dargor.gateway.filter;
 
+import java.util.List;
+import java.util.function.Predicate;
+
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.UnsupportedJwtException;
-import lombok.AllArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
+
 import org.dargor.gateway.util.JwtUtils;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.cloud.gateway.filter.GatewayFilter;
@@ -13,11 +15,12 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.server.reactive.ServerHttpRequest;
+import org.springframework.http.server.reactive.ServerHttpResponse;
 import org.springframework.web.server.ServerWebExchange;
-import reactor.core.publisher.Mono;
 
-import java.util.List;
-import java.util.function.Predicate;
+import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import reactor.core.publisher.Mono;
 
 @Slf4j
 @RefreshScope
@@ -29,14 +32,14 @@ public class JwtAuthenticationFilter implements GatewayFilter {
 
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
-        var request = exchange.getRequest();
-        final var apiEndpoints = List.of("/auth-service");
+        ServerHttpRequest request = exchange.getRequest();
+        final List<String> apiEndpoints = List.of("/auth-service");
         Predicate<ServerHttpRequest> isApiSecured = r -> apiEndpoints.stream()
                 .noneMatch(uri -> r.getURI().getPath().contains(uri));
 
         if (isApiSecured.test(request)) {
             if (!request.getHeaders().containsKey(HttpHeaders.AUTHORIZATION)) {
-                var response = exchange.getResponse();
+                ServerHttpResponse response = exchange.getResponse();
                 response.setStatusCode(HttpStatus.UNAUTHORIZED);
                 return response.setComplete();
             }
@@ -45,7 +48,7 @@ public class JwtAuthenticationFilter implements GatewayFilter {
             try {
                 jwtUtil.validateToken(token);
             } catch (MalformedJwtException | UnsupportedJwtException e) {
-                var response = exchange.getResponse();
+                ServerHttpResponse response = exchange.getResponse();
                 response.setStatusCode(HttpStatus.UNAUTHORIZED);
                 return response.setComplete();
             }

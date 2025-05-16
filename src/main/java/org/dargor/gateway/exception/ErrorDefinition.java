@@ -1,20 +1,24 @@
 package org.dargor.gateway.exception;
 
+import org.springframework.http.HttpStatus;
+
 import lombok.Getter;
 
 @Getter
 public enum ErrorDefinition {
 
-    INVALID_FIELDS("Please verify input data"),
-    UNKNOWN_ERROR("Unknown error occurred"),
-    ENTITY_NOT_FOUND("Entity not found"),
-    PATH_NOT_FOUND("Path not found"),
-    UNAUTHORIZED("Access denied"),
-    BUSINESS_ERROR("Business error");
+    INVALID_FIELDS("Please verify input data", HttpStatus.BAD_REQUEST),
+    UNKNOWN_ERROR("Unknown error occurred", HttpStatus.INTERNAL_SERVER_ERROR),
+    ENTITY_NOT_FOUND("Entity not found", HttpStatus.NOT_FOUND),
+    RESOURCE_NOT_FOUND("Resource not found", HttpStatus.NOT_FOUND),
+    UNAUTHORIZED("Access denied", HttpStatus.UNAUTHORIZED);
 
     private final String message;
 
-    ErrorDefinition(String message) {
+    private final HttpStatus status;
+
+    ErrorDefinition(String message, HttpStatus status) {
         this.message = message;
+        this.status = status;
     }
 }
